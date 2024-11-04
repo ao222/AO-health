@@ -9,7 +9,6 @@ load_dotenv()
 allowed_users = os.getenv("ALLOWED_USERS").split(",")
 
 st.title("Streamlit Google Auth")
-st.write(st.context.cookies)
 
 authenticator = Authenticator(
     allowed_users=allowed_users,
