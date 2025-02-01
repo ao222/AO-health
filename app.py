@@ -14,7 +14,7 @@ authenticator = Authenticator(
     allowed_users=allowed_users,
     token_key=st.secrets["google_api_key"],
     secret_client_str=st.secrets["secret_client"],
-    redirect_uri="https://ao-health-app.streamlit.app/",
+    redirect_uri=st.secrets["my_uri"],
 )
 authenticator.check_auth()
 authenticator.login()
