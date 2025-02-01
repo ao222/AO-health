@@ -10,7 +10,7 @@ class Authenticator:
     def __init__(
         self,
         allowed_users: list,
-        secret_path: str,
+        secret_client_str: str,
         redirect_uri: str,
         token_key: str,
         cookie_name: str = "auth_jwt",
@@ -18,7 +18,7 @@ class Authenticator:
     ):
         st.session_state["connected"] = st.session_state.get("connected", False)
         self.allowed_users = allowed_users
-        self.secret_path = secret_path
+        self.secret_client_dict = json.loads(secret_client_str)
         self.redirect_uri = redirect_uri
         self.auth_token_manager = AuthTokenManager(
             cookie_name=cookie_name,
@@ -28,11 +28,10 @@ class Authenticator:
         self.cookie_name = cookie_name
 
     def _initialize_flow(self) -> google_auth_oauthlib.flow.Flow:
-        flow = google_auth_oauthlib.flow.Flow.from_client_secrets_file(
-            self.secret_path,
+        flow = google_auth_oauthlib.flow.Flow.from_client_config(
+            self.client_secret_dict,
             scopes=[
                 "openid",
-                "https://www.googleapis.com/auth/userinfo.profile",
                 "https://www.googleapis.com/auth/userinfo.email",
             ],
             redirect_uri=self.redirect_uri,
