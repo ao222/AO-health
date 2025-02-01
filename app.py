@@ -6,15 +6,15 @@ from auth import Authenticator
 load_dotenv()
 
 # emails of users that are allowed to login
-allowed_users = os.getenv("ALLOWED_USERS").split(",")
+allowed_users = st.secrets["my_email"]
 
 st.title("Streamlit Google Auth")
 
 authenticator = Authenticator(
     allowed_users=allowed_users,
-    token_key=os.getenv("TOKEN_KEY"),
-    secret_path="client_secret.json",
-    redirect_uri="http://localhost:8501",
+    token_key=st.secrets["google_api_key"],
+    secret_client_str=st.secrets["secret_client"],
+    redirect_uri="https://ao-health-app.streamlit.app/",
 )
 authenticator.check_auth()
 authenticator.login()
